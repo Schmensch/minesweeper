@@ -40,7 +40,7 @@ Ebenfalls existiert ein zweites Array (Maske) der selben Größe, allerdings aus
 
 ### Nutzereingabe von Koordinaten
 
-Der Nutzer wählt ein Feld aus, indem er Koordinaten angibt, die im Schema `Buchstabe-Zahl` angibt (Z. B. `N-16`). Zuallererst wird geprüft, ob die Nutzereingabe dem Schema entspricht. Der Buchstabe wird in eine Zahl konvertiert basierend auf der Position im Alphabet, dann wird bei beiden Zahlen 1 subtrahiert, damit der Nutzer keine 0-Koordinate eingeben muss.
+Der Nutzer wählt ein Feld aus, indem er Koordinaten im Schema `Buchstabe-Zahl`, angibt (Z. B. `N-16`). Zuallererst wird geprüft, ob die Nutzereingabe dem Schema entspricht. Der Buchstabe wird in eine Zahl konvertiert basierend auf der Position im Alphabet, dann wird bei beiden Zahlen 1 subtrahiert, damit der Nutzer keine 0-Koordinate eingeben muss.
 
 Dann wird geprüft, ob die Nutzereingabe innerhalb des Spielfeldes ist (z. B. keine negativen Zahlen).
 
