@@ -50,7 +50,7 @@ Dann erst wird die Koordinate genutzt.
 
 #### Mienen platzieren
 
-Je nach Schwierigkeitsgrad, den der Nutzer ausgewählt hat, werden 10 / 40 / 99 Mienen platziert. Es wird eine zufällige Koordinate mithilfe von zwei Zufallszahlen, generiert von `rand()` aus der C Standard Library (`glibc` auf Linux), ausgewählt. Wenn an dieser Position schon eine Miene ist oder es sich um die erste vom Spieler ausgewählte Koordinate handelt, wird neu gewürfelt. Ansonsten wird auf dem Feld eine Miene platziert, und die Zahl auf dem Spielfeld wird negativ gesetzt.
+Je nach Schwierigkeitsgrad, den der Nutzer ausgewählt hat, werden 10 / 40 / 99 Mienen platziert. Es wird eine zufällige Koordinate mithilfe von zwei Zufallszahlen, generiert von `rand()` aus der C Standard Library (`glibc` auf Linux), ausgewählt. Wenn an dieser Position schon eine Miene ist oder es sich um das erste ausgewählte, oder angrenzende Felder handelt, wird neu gewürfelt. Ansonsten wird auf dem Feld eine Miene platziert, und die Zahl auf dem Spielfeld wird negativ gesetzt.
 
 #### Anzahl an angrenzenden Mienen berechnen
 
