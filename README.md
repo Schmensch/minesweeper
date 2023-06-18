@@ -81,7 +81,7 @@ Ist das Feld frei (heißt `0`) und die Funktionsmaske nicht für das Feld gesetz
 
 Dies führt dazu, das durch die Rekursion alle angrenzenden Felder Stück für Stück aufgedeckt werden, bis ein "Loch" entsteht, das einen Rand aus Zahlen hat.
 
-<!-- ### Felder "flaggen"
+<!-- ### Felder "Flaggen"
 
 Für Flaggen, die der Spieler verteilen kann, gibt es eine Flaggen-Maske. Beim rendern werden geflaggte Felder durch ein F markiert.
 
