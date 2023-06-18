@@ -67,6 +67,20 @@ Nachdem alle Mienen platziert wurden, wird für jedes Raster im Spielfeld, das k
 
 Wenn ein zu überprüfendes Feld außerhalb des Spielfelds ist (z. B. negative Koordinate), wird es nicht überprüft.
 
+### Automatisches Aufdecken angrenzender Zellen
+
+Wenn der Nutzer eine Feld aufdeckt, werden automatisch alle Felder aufgedeckt, die durch eine ununterbrochene Linie an freien Feldern mit dem vom Nutzer ausgewählten Feld verbunden werden können, außer Mienen, sie werden nicht automatisch aufgedeckt.
+
+Dies wird durch eine rekursive Funktion gelöst. Sie nimmt 3 Argumente: Das Spielfeld, das Feld, von dem sie die Nachbarn frei machen soll und eine Maske mit allen Feldern, die schon überprüft wurden.
+
+Die Funktion überprüft alle Nachbarfelder und bearbeitet die Maske, die kontrolliert, welche Felder dem Spieler angezeigt werden. Sie setzt die Maske auf `true` (heißt Felder werden dem Spieler angezeigt) für alle Felder, auf denen sich keine Bombe befindet.
+
+Alle Felder die die Funktion überprüft, werden einer anderen Maske hinzugefügt.
+
+Ist das Feld frei (heißt `0`) und die Funktionsmaske nicht für das Feld gesetzt, ruft die Funktion sich selbst nochmal auf das Feld auf.
+
+Dies führt dazu, das durch die Rekursion alle angrenzenden Felder Stück für Stück aufgedeckt werden, bis ein "Loch" entsteht, das einen Rand aus Zahlen hat.
+
 <!-- ### Felder "flaggen"
 
 Für Flaggen, die der Spieler verteilen kann, gibt es eine Flaggen-Maske. Beim rendern werden geflaggte Felder durch ein F markiert.
