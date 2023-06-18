@@ -22,7 +22,7 @@ Spielablauf:
     - Wenn das Feld frei ist, wiederholen sich alle Schritte in diesem Absatz.
     - Wenn das Feld eine Miene enthält, hat der Spieler verloren und kann eine neue Runde starten.
     - Wenn alle verdeckten Felder nur noch Mienen enthalten, hat der Spieler gewonnen, und kann eine neue Runde starten.
-    - Der Spieler kann nicht nur Felder aufdecken, sondern auch markieren, wenn er denkt, das es sich bei dem Feld um eine Miene handelt. Dies hat keinen Effekt auf das Spiel, sondern dient nur als Erinnerung für den Spieler.
+    <!-- - Der Spieler kann nicht nur Felder aufdecken, sondern auch markieren, wenn er denkt, das es sich bei dem Feld um eine Miene handelt. Dies hat keinen Effekt auf das Spiel, sondern dient nur als Erinnerung für den Spieler. -->
 
 ## Algorithmus /// Wie unser Programm das Spiel umsetzt
 
@@ -66,5 +66,11 @@ Nachdem alle Mienen platziert wurden, wird für jedes Raster im Spielfeld, das k
 - X-1, Y-1
 
 Wenn ein zu überprüfendes Feld außerhalb des Spielfelds ist (z. B. negative Koordinate), wird es nicht überprüft.
+
+<!-- ### Felder "flaggen"
+
+Für Flaggen, die der Spieler verteilen kann, gibt es eine Flaggen-Maske. Beim rendern werden geflaggte Felder durch ein F markiert.
+
+-->
 
 ## Quellcode /// Unsere Umsetzung von Minesweeper
