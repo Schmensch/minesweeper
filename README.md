@@ -74,3 +74,8 @@ Für Flaggen, die der Spieler verteilen kann, gibt es eine Flaggen-Maske. Beim r
 -->
 
 ## Quellcode /// Unsere Umsetzung von Minesweeper
+
+# Quellen
+
+- https://www.google.com/search?q=minesweeper
+- https://www.minesweeper.info/wiki/Minesweeper_Official_Rules
