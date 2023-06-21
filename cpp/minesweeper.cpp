@@ -2,6 +2,8 @@
 #include <cctype>
 #include <vector>
 
+using namespace std;
+
 int main()
 {
 
@@ -13,7 +15,7 @@ int main()
     */
 
     // Introduction
-    std::cout << "Welcome to MINESWEEPER \n\nPlease select a difficulty: \n\t Normal [N] \n\t Hard [H] \n\t Expert [E]\n";
+    cout << "Welcome to MINESWEEPER \n\nPlease select a difficulty: \n\t Normal [N] \n\t Hard [H] \n\t Expert [E]\n";
 
     // Set up variables
     char userDifficulty;
@@ -25,7 +27,7 @@ int main()
     // sets boardSizeX, boardSizeY and numMines acording to player input
     while (difficulty == -1)
     {
-        std::cin >> userDifficulty;
+        cin >> userDifficulty;
         userDifficulty = tolower(userDifficulty);
         switch (userDifficulty)
         {
@@ -46,14 +48,14 @@ int main()
             numMines = 99;
             break;
         default:
-            std::cout << "Enter valid answer!\n";
+            cout << "Enter valid answer!\n";
             break;
         }
     }
 
     // creates board
-    std::vector<std::vector<int>> board;
-    std::vector<std::vector<bool>> maskVisible;
+    vector<vector<int>> board;
+    vector<vector<bool>> maskVisible;
 
     // Zero the board vector
     board.resize(boardSizeX);
@@ -75,21 +77,21 @@ int main()
     {
         for (int j = 0; j < boardSizeY; j++)
         {
-            std::cout << board[i][j] << " ";
+            cout << board[i][j] << " ";
         }
-        std::cout << "\n";
+        cout << "\n";
     }
 
-    std::cout << "\n\n";
+    cout << "\n\n";
 
     // debug visible maskVisible output
     for (int i = 0; i < boardSizeX; i++)
     {
         for (int j = 0; j < boardSizeY; j++)
         {
-            std::cout << maskVisible[i][j] << " ";
+            cout << maskVisible[i][j] << " ";
         }
-        std::cout << "\n";
+        cout << "\n";
     }
 
     /*
