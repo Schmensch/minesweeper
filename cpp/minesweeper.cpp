@@ -62,12 +62,12 @@ int main()
     maskVisible.resize(boardSizeX);
     for (int i = 0; i < boardSizeX; i++)
     {
+        board[i].resize(boardSizeY);
+        maskVisible[i].resize(boardSizeY);
         for (int j = 0; j < boardSizeY; j++)
         {
-            board[i].resize(boardSizeY);
             board[i][j] = 0;
 
-            maskVisible[i].resize(boardSizeY);
             maskVisible[i][j] = false;
         }
     }
