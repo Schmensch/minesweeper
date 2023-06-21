@@ -8,16 +8,26 @@ void printBoard(vector<vector<int>> board, vector<vector<bool>> maskVisible)
 {
     for (int i = 0; i < board.size(); i++)
     {
+        cout << "-";
+        for (int k = 0; k < board[i].size(); k++) {
+            cout << "----";
+        }
+        cout << endl << "|";
         for (int j = 0; j < board[i].size(); j++)
         {
-            if (maskVisible[i][j]) {
-                cout << board[i][j] << " ";
+            if (!maskVisible[i][j]) {
+                cout << " " << board[i][j] << " |";
             } else {
-                cout << "  ";
+                cout << "  |";
             }
         }
         cout << "\n";
     }
+    cout << "-";
+    for (int k = 0; k < board[0].size(); k++) {
+        cout << "----";
+    }
+    cout << endl;
 }
 
 int main()
