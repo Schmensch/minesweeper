@@ -6,81 +6,84 @@ using namespace std;
 int main()
 {
 
+    /*
     // main gameloop
     bool gameloop = true;
     while (gameloop)
     {
+    */
 
-        // anounces game
-        cout << "Welcome to MINESWEEPER \n\nPlease selekt a difficulty: \n\t Normal [N] \n\t Hard [H] \n\t Expert [E]" << endl;
-        char difin;
-        int boardX, boardY, nmins, dif = -1;
+    // anounces game
+    cout << "Welcome to MINESWEEPER \n\nPlease selekt a difficulty: \n\t Normal [N] \n\t Hard [H] \n\t Expert [E]" << endl;
+    char userDifficulty;
+    int boardX, boardY, numMines, difficulty = -1;
 
-        // sets boardX, boardY and nmins acording to player input
-        while (dif == -1)
+    // sets boardX, boardY and numMines acording to player input
+    while (difficulty == -1)
+    {
+        cin >> userDifficulty;
+        userDifficulty = tolower(userDifficulty);
+        switch (userDifficulty)
         {
-            cin >> difin;
-            difin = tolower(difin);
-            switch (difin)
-            {
-            case 'n':
-                dif = 0;
-                boardX = boardY = 8;
-                nmins = 10;
-                break;
-            case 'h':
-                dif = 1;
-                boardX = boardY = 16;
-                nmins = 40;
-                break;
-            case 'e':
-                dif = 2;
-                boardX = 16;
-                boardY = 30;
-                nmins = 99;
-                break;
-            default:
-                cout << "Enter valid answer!" << endl;
-                break;
-            }
+        case 'n':
+            difficulty = 0;
+            boardX = boardY = 8;
+            numMines = 10;
+            break;
+        case 'h':
+            difficulty = 1;
+            boardX = boardY = 16;
+            numMines = 40;
+            break;
+        case 'e':
+            difficulty = 2;
+            boardX = 16;
+            boardY = 30;
+            numMines = 99;
+            break;
+        default:
+            cout << "Enter valid answer!" << endl;
+            break;
         }
+    }
 
-        // creats board
-        int board[boardX][boardY] = {0};
-        bool maskVisible[boardX][boardY] = {0};
+    // creats board
+    int board[boardX][boardY];
+    bool maskVisible[boardX][boardY];
 
-        // Zero the board
-        for (int i = 0; i < boardX; i++)
+    // Zero the board
+    for (int i = 0; i < boardX; i++)
+    {
+        for (int j = 0; j < boardY; j++)
         {
-            for (int j = 0; j < boardY; j++)
-            {
-                board[i][j] = 0;
-                maskVisible[i][j] = false;
-            }
+            board[i][j] = 0;
+            maskVisible[i][j] = false;
         }
+    }
 
-        // debug board output
-        for (int i = 0; i < boardX; i++)
+    // debug board output
+    for (int i = 0; i < boardX; i++)
+    {
+        for (int j = 0; j < boardY; j++)
         {
-            for (int j = 0; j < boardY; j++)
-            {
-                cout << board[i][j] << " ";
-            }
-            cout << endl;
+            cout << board[i][j] << " ";
         }
+        cout << endl;
+    }
 
-        cout << "\n\n\n";
+    cout << "\n\n\n";
 
-        // debug visible maskVisible output
-        for (int i = 0; i < boardX; i++)
+    // debug visible maskVisible output
+    for (int i = 0; i < boardX; i++)
+    {
+        for (int j = 0; j < boardY; j++)
         {
-            for (int j = 0; j < boardY; j++)
-            {
-                cout << maskVisible[i][j] << " ";
-            }
-            cout << endl;
+            cout << maskVisible[i][j] << " ";
         }
+        cout << endl;
+    }
 
+    /*
         // quits/restarts Gameloop
         while (true)
         {
@@ -102,6 +105,7 @@ int main()
             }
         }
     }
+    */
     return 0;
 }
 
