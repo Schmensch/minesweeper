@@ -28,7 +28,7 @@ Spielablauf:
 
 ### Spielfeldrepräsentation
 
-Das Spielfeld wird intern als 2-Dimensionales Array aus Signed Integern (Z. B. `Int[15][15]` für das schwere Spielfeld) repräsentiert:
+Das Spielfeld wird intern mit 2-Dimensionalen Vectoren aus Signed Integern (Z. B. `vector<vector<int>>`) repräsentiert:
 
 | Zahl                 | Bedeutung der Zahl                               |
 | -------------------- | ------------------------------------------------ |
@@ -36,7 +36,7 @@ Das Spielfeld wird intern als 2-Dimensionales Array aus Signed Integern (Z. B. `
 | 1-8                  | Feld grenzt an _n_ Bomben, Zahl auf Feld ist _n_ |
 | 0                    | Freies Feld ohne angrenzende Bomben              |
 
-Ebenfalls existiert ein zweites Array (Maske) der selben Größe, allerdings aus Booleans. Alle Booleans sind zuerst `false`, wenn ein Feld aufgedeckt wird, wird es auf `true` gesetzt. Nur der Inhalt Felder des Spielfelds, bei denen die Koordinaten der Maske auf `true` gesetzt ist, werden dem Spieler angezeigt.
+Ebenfalls existiert ein zweiter Vector (Maske) der selben Größe, allerdings aus Booleans. Alle Booleans sind zuerst `false`, wenn ein Feld aufgedeckt wird, wird es auf `true` gesetzt. Nur der Inhalt Felder des Spielfelds, bei denen die Koordinaten der Maske auf `true` gesetzt ist, werden dem Spieler angezeigt.
 
 ### Nutzereingabe von Koordinaten
 
@@ -90,9 +90,9 @@ Für Flaggen, die der Spieler verteilen kann, gibt es eine Flaggen-Maske. Beim r
 ### Spielzug
 
 - Der Nutzer gibt mit Hilfe von `Nutzereingabe von Koordinaten` ein Feld an, handelt es sich bei dem Spielzug um den Ersten wird das Spielfeld gefüllt (siehe `Spielfeld füllen`)
-- Es wird überprüft ob es sich bei dem angegebenen Feld um eine Bombe handelt, dies kann einfach aus dem Spielfeld Array ausgelesen werden 
+- Es wird überprüft ob es sich bei dem angegebenen Feld um eine Bombe handelt, dies kann einfach aus dem Spielfeld Vector ausgelesen werden 
 - Handelt es sich bei dem Feld um eine Miene wird die Gameloop unterbrochen (Dieser Schrit ist beim ersten Spielzug nicht nötig, da das erste Feld keine Miene sein kann)
-- Das vom Nutzer ausgewählte Feld wird nun aufgedeckt indem das Feld im Masken-Array auf `true` gesetzt wird
+- Das vom Nutzer ausgewählte Feld wird nun aufgedeckt indem das Feld im Masken-Vector auf `true` gesetzt wird
 - Der `Automatisches Aufdecken angrenzender Zellen` Algorythmus wird nun auf das vom Spieler ausgewählte Feld angewendet
 - Der Spielzug wiederholt sich
 
