@@ -48,7 +48,7 @@ int main()
         }
     }
 
-    // creats board
+    // creates board
     int board[boardX][boardY];
     bool maskVisible[boardX][boardY];
 
