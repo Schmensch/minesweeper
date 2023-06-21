@@ -1,8 +1,6 @@
 #include <iostream>
 #include <cctype>
 
-using namespace std;
-
 int main()
 {
 
@@ -14,7 +12,7 @@ int main()
     */
 
     // Introduction
-    cout << "Welcome to MINESWEEPER \n\nPlease select a difficulty: \n\t Normal [N] \n\t Hard [H] \n\t Expert [E]" << endl;
+    std::cout << "Welcome to MINESWEEPER \n\nPlease select a difficulty: \n\t Normal [N] \n\t Hard [H] \n\t Expert [E]\n";
 
     // Set up variables
     char userDifficulty;
@@ -26,7 +24,7 @@ int main()
     // sets boardSizeX, boardSizeY and numMines acording to player input
     while (difficulty == -1)
     {
-        cin >> userDifficulty;
+        std::cin >> userDifficulty;
         userDifficulty = tolower(userDifficulty);
         switch (userDifficulty)
         {
@@ -47,7 +45,7 @@ int main()
             numMines = 99;
             break;
         default:
-            cout << "Enter valid answer!" << endl;
+            std::cout << "Enter valid answer!\n";
             break;
         }
     }
@@ -71,21 +69,21 @@ int main()
     {
         for (int j = 0; j < boardSizeY; j++)
         {
-            cout << board[i][j] << " ";
+            std::cout << board[i][j] << " ";
         }
-        cout << endl;
+        std::cout << "\n";
     }
 
-    cout << "\n\n\n";
+    std::cout << "\n\n\n";
 
     // debug visible maskVisible output
     for (int i = 0; i < boardSizeX; i++)
     {
         for (int j = 0; j < boardSizeY; j++)
         {
-            cout << maskVisible[i][j] << " ";
+            std::cout << maskVisible[i][j] << " ";
         }
-        cout << endl;
+        std::cout << "\n";
     }
 
     /*
@@ -112,4 +110,8 @@ int main()
     }
     */
     return 0;
+}
+
+void printBoard(int board[][], int boardSizeX, int boardSizeY)
+{
 }
