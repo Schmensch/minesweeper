@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cctype>
+#include <vector>
 
 int main()
 {
@@ -51,15 +52,20 @@ int main()
     }
 
     // creates board
-    int board[boardSizeX][boardSizeY];
-    bool maskVisible[boardSizeX][boardSizeY];
+    std::vector<std::vector<int>> board;
+    std::vector<std::vector<bool>> maskVisible;
 
-    // Zero the board
+    // Zero the board vector
+    board.resize(boardSizeX);
+    maskVisible.resize(boardSizeX);
     for (int i = 0; i < boardSizeX; i++)
     {
         for (int j = 0; j < boardSizeY; j++)
         {
+            board[i].resize(boardSizeY);
             board[i][j] = 0;
+
+            maskVisible[i].resize(boardSizeY);
             maskVisible[i][j] = false;
         }
     }
@@ -74,7 +80,7 @@ int main()
         std::cout << "\n";
     }
 
-    std::cout << "\n\n\n";
+    std::cout << "\n\n";
 
     // debug visible maskVisible output
     for (int i = 0; i < boardSizeX; i++)
@@ -110,8 +116,4 @@ int main()
     }
     */
     return 0;
-}
-
-void printBoard(int board[][], int boardSizeX, int boardSizeY)
-{
 }
