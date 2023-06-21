@@ -14,7 +14,7 @@ int main()
     */
 
     // anounces game
-    cout << "Welcome to MINESWEEPER \n\nPlease selekt a difficulty: \n\t Normal [N] \n\t Hard [H] \n\t Expert [E]" << endl;
+    cout << "Welcome to MINESWEEPER \n\nPlease select a difficulty: \n\t Normal [N] \n\t Hard [H] \n\t Expert [E]" << endl;
     char userDifficulty;
     int boardX, boardY, numMines;
     int difficulty = -1;
