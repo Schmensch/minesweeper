@@ -3,37 +3,37 @@
 
 using namespace std;
 
-int main()
-{
+int main(){
+
+    //main gameloop
     bool gameloop = true;
     while (gameloop) {
+
+        //anounces game
         cout << "Welcome to MINESWEEPER \n\nPlease selekt a difficulty: \n\t Normal [N] \n\t Hard [H] \n\t Expert [E]" << endl;
         char difin;
-        int x;
-        int y;
-        int nmins;
-        int dif = -11;
+        int boardX, boardY, nmins, dif = -1;
 
-        //sets x,z and nmins acording to player input
-        while (dif == -11){
+        //sets boardX, boardY and nmins acording to player input
+        while (dif == -1){
             cin >> difin;
             difin = tolower(difin);
             switch (difin){
                 case 'n':
                     dif = 0;
-                    x = y = 7;
-                    nmins = 9;
+                    boardX = boardY = 8;
+                    nmins = 10;
                     break;
                 case 'h':
                     dif = 1;
-                    x = y = 15;
-                    nmins = 39;
+                    boardX = boardY = 16;
+                    nmins = 40;
                     break;
                 case 'e':
                     dif = 2;
-                    x = 15;
-                    y = 29;
-                    nmins = 98;
+                    boardX = 16;
+                    boardY = 30;
+                    nmins = 99;
                     break;
                 default:
                     cout << "Enter valid answer!" << endl;
@@ -41,20 +41,34 @@ int main()
             }
         }
 
+        //creats board
+        int board [boardX] [boardY] = {0};
+        bool mask [boardX] [boardY] = {true};
 
-        /*
-        still figuring shit out
-
-        int board [y][x] = {
-            {1,0,0,0},
-            {0,0,0,0}
-        };
-
-        for (int i=0; i>7; i++) {
-            cout << board [0][0];
+        //board output
+        for(int i = 0; i< boardX; i++) {
+            cout << "-";
+            for (int k = 0; k < boardY; k++) {
+                cout << "----";
+            }
+            cout << endl;
+            for (int j = 0; j < boardY; j++) {
+                cout << "|";
+                if (mask [i] [j]) {
+                    cout << " " << board [i] [j] << " ";
+                } else {
+                    cout << " 9 ";
+                }
+            }
+        cout << "|";
+        cout <<endl;
         }
-        */
-        
+        cout << "-";
+        for (int k = 0; k < boardY; k++) {
+            cout << "----";
+        }
+        cout << endl;
+    
 
 
         //quits/restarts Gameloop
@@ -74,3 +88,14 @@ int main()
     }
     return 0;
 }
+
+
+/*
+for (int i = 0; i < 9; i++) {
+    for (int j = 0; j < 9; j++) {
+        if (mask [i] [j] == false ) {
+            cout << "true" << endl;
+        }
+    }
+}
+*/
