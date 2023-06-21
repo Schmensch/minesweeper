@@ -13,13 +13,17 @@ int main()
     {
     */
 
-    // anounces game
+    // Introduction
     cout << "Welcome to MINESWEEPER \n\nPlease select a difficulty: \n\t Normal [N] \n\t Hard [H] \n\t Expert [E]" << endl;
+
+    // Set up variables
     char userDifficulty;
-    int boardX, boardY, numMines;
+    int boardSizeX, boardSizeY, numMines;
+
+    // Evil hack to check whether difficulty is set
     int difficulty = -1;
 
-    // sets boardX, boardY and numMines acording to player input
+    // sets boardSizeX, boardSizeY and numMines acording to player input
     while (difficulty == -1)
     {
         cin >> userDifficulty;
@@ -28,18 +32,18 @@ int main()
         {
         case 'n':
             difficulty = 0;
-            boardX = boardY = 8;
+            boardSizeX = boardSizeY = 8;
             numMines = 10;
             break;
         case 'h':
             difficulty = 1;
-            boardX = boardY = 16;
+            boardSizeX = boardSizeY = 16;
             numMines = 40;
             break;
         case 'e':
             difficulty = 2;
-            boardX = 16;
-            boardY = 30;
+            boardSizeX = 16;
+            boardSizeY = 30;
             numMines = 99;
             break;
         default:
@@ -49,13 +53,13 @@ int main()
     }
 
     // creates board
-    int board[boardX][boardY];
-    bool maskVisible[boardX][boardY];
+    int board[boardSizeX][boardSizeY];
+    bool maskVisible[boardSizeX][boardSizeY];
 
     // Zero the board
-    for (int i = 0; i < boardX; i++)
+    for (int i = 0; i < boardSizeX; i++)
     {
-        for (int j = 0; j < boardY; j++)
+        for (int j = 0; j < boardSizeY; j++)
         {
             board[i][j] = 0;
             maskVisible[i][j] = false;
@@ -63,9 +67,9 @@ int main()
     }
 
     // debug board output
-    for (int i = 0; i < boardX; i++)
+    for (int i = 0; i < boardSizeX; i++)
     {
-        for (int j = 0; j < boardY; j++)
+        for (int j = 0; j < boardSizeY; j++)
         {
             cout << board[i][j] << " ";
         }
@@ -75,9 +79,9 @@ int main()
     cout << "\n\n\n";
 
     // debug visible maskVisible output
-    for (int i = 0; i < boardX; i++)
+    for (int i = 0; i < boardSizeX; i++)
     {
-        for (int j = 0; j < boardY; j++)
+        for (int j = 0; j < boardSizeY; j++)
         {
             cout << maskVisible[i][j] << " ";
         }
