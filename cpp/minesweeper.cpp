@@ -4,6 +4,18 @@
 
 using namespace std;
 
+void printBoard(vector<vector<int>> board)
+{
+    for (int i = 0; i < board.size(); i++)
+    {
+        for (int j = 0; j < board[i].size(); j++)
+        {
+            cout << board[i][j] << " ";
+        }
+        cout << "\n";
+    }
+}
+
 int main()
 {
 
@@ -73,26 +85,7 @@ int main()
     }
 
     // debug board output
-    for (int i = 0; i < boardSizeX; i++)
-    {
-        for (int j = 0; j < boardSizeY; j++)
-        {
-            cout << board[i][j] << " ";
-        }
-        cout << "\n";
-    }
-
-    cout << "\n\n";
-
-    // debug visible maskVisible output
-    for (int i = 0; i < boardSizeX; i++)
-    {
-        for (int j = 0; j < boardSizeY; j++)
-        {
-            cout << maskVisible[i][j] << " ";
-        }
-        cout << "\n";
-    }
+    printBoard(board);
 
     /*
         // quits/restarts Gameloop
