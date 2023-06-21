@@ -16,7 +16,8 @@ int main()
     // anounces game
     cout << "Welcome to MINESWEEPER \n\nPlease selekt a difficulty: \n\t Normal [N] \n\t Hard [H] \n\t Expert [E]" << endl;
     char userDifficulty;
-    int boardX, boardY, numMines, difficulty = -1;
+    int boardX, boardY, numMines;
+    int difficulty = -1;
 
     // sets boardX, boardY and numMines acording to player input
     while (difficulty == -1)
