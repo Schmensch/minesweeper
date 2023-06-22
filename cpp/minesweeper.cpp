@@ -30,6 +30,37 @@ void printBoard(vector<vector<int>> board, vector<vector<bool>> maskVisible)
     cout << endl;
 }
 
+bool isValid(vector<int> toCheck, int boardSizeX, int boardSizeY) {
+    bool isValid;
+        if (toCheck[0] <= boardSizeX) {
+            if (toCheck[0] >0){
+                isValid = true;
+                if (toCheck[1] <= boardSizeY) {
+                    if (toCheck[1] >0){
+                        isValid = true;
+                    }
+                } else {
+            isValid = false;
+        }
+            }
+        } else {
+            isValid = false;
+        }
+    return isValid;
+}
+
+vector<int> userInput() {
+    vector<int> userInput;
+    int input;
+    cout << "Pleas enter a koordinate \nEnter X:";
+    cin >> input;
+    userInput.push_back(input);
+    cout << "Enter Y:";
+    cin >> input;
+    userInput.push_back(input);
+    return userInput;
+}
+
 int main()
 {
 
@@ -91,8 +122,11 @@ int main()
         }
     }
 
-    // Debug board output
-    printBoard(board, maskVisible);
+    //debugs stuff
+    vector<int> test = {10,1};
+    if(isValid(test, boardSizeX, boardSizeY)) {
+        cout << "true\n";
+    }
 
     /*
         // Quits/Restarts Gameloop
