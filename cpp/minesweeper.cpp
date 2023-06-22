@@ -1,9 +1,11 @@
 #include <iostream>
 #include <cctype>
 #include <vector>
+#include <random>
 
 using namespace std;
 
+//Prints board
 void printBoard(vector<vector<int>> board, vector<vector<bool>> maskVisible)
 {
     for (int i = 0; i < board.size(); i++)
@@ -30,6 +32,7 @@ void printBoard(vector<vector<int>> board, vector<vector<bool>> maskVisible)
     cout << endl;
 }
 
+//Checks if Koordiante is on board
 bool isValid(vector<int> toCheck, int boardSizeX, int boardSizeY) {
     bool isValid;
         if (toCheck[0] <= boardSizeX) {
@@ -49,6 +52,7 @@ bool isValid(vector<int> toCheck, int boardSizeX, int boardSizeY) {
     return isValid;
 }
 
+//Takes user input
 vector<int> userInput() {
     vector<int> userInput;
     int input;
@@ -59,6 +63,18 @@ vector<int> userInput() {
     cin >> input;
     userInput.push_back(input);
     return userInput;
+}
+
+//Generates random Koordinate using <random>
+vector<int> randomKoordinate (int boardSizeX, int boardSizeY) {
+    vector<int> random;
+    random_device rand;
+    mt19937 gen(rand());  
+    uniform_int_distribution<>dis(1, boardSizeX);
+    random.push_back(dis(gen));
+    uniform_int_distribution<>cis(1, boardSizeY);
+    random.push_back(cis(gen));
+    return random;
 }
 
 int main()
@@ -123,10 +139,8 @@ int main()
     }
 
     //debugs stuff
-    vector<int> test = {10,1};
-    if(isValid(test, boardSizeX, boardSizeY)) {
-        cout << "true\n";
-    }
+        vector<int> test = randomKoordinate (boardSizeX, boardSizeY);
+        cout << test[0] << " " << test[1] << endl;
 
     /*
         // Quits/Restarts Gameloop
