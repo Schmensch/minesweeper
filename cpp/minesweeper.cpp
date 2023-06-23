@@ -75,6 +75,14 @@ bool isValid(vector<int> toCheck, int boardSizeX, int boardSizeY)
     return isValid;
 }
 
+// Takes an empty game board and fills in mines and distance to the nearest mine
+// Returns the filled out game board
+vector<vector<int>> generateMines(vector<vector<int>> board)
+{
+    // TBD: Implement this
+    return;
+}
+
 // Takes user input
 vector<int> userInput(int boardSizeX, int boardSizeY)
 {
@@ -172,6 +180,8 @@ int main()
     cout << "Make first move \n";
     vector<int> firstMove = userInput(boardSizeX, boardSizeY);
 
+    generateMines();
+
     // Generate mines (replace 'randomCoordinate' with 'userInput' to generate mines yourself(only recommended on easy))
     for (int i = 0; i < numMines; i++)
     {
@@ -179,10 +189,6 @@ int main()
         // cout << coordinateMine[0] << " " << coordinateMine[1] << endl;
         int i1 = --coordinateMine[0], i2 = --coordinateMine[1];
         if (board[i1][i2] < 0)
-        {
-            i--;
-        }
-        else if (firstMove == coordinateMine)
         {
             i--;
         }
