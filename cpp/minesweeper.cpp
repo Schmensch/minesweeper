@@ -82,7 +82,7 @@ vector<int> userInput(int boardSizeX, int boardSizeY)
     int input;
     while (!isValid(userInput, boardSizeX, boardSizeY))
     {
-        cout << "Pleas enter a coordinate \nEnter X:";
+        cout << "Please enter a coordinate \nEnter X:";
         cin >> input;
         userInput.at(0) = input;
         cout << "Enter Y:";
@@ -143,7 +143,7 @@ int main()
             numMines = 99;
             break;
         default:
-            cout << "Enter valid answer!\n";
+            cout << "Enter a valid answer!\n";
             break;
         }
     }
@@ -169,7 +169,7 @@ int main()
     // First move
     int moves = 1;
     printBoard(board, maskVisible);
-    cout << "make first move \n";
+    cout << "Make first move \n";
     vector<int> firstMove = userInput(boardSizeX, boardSizeY);
 
     // Generate mines (replace 'randomKoordinate' with 'userInput' to generate mines yourself(only recommended on easy))
