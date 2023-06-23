@@ -1,46 +1,36 @@
-#include <iostream>
 #include <cctype>
-#include <vector>
+#include <iostream>
 #include <random>
+#include <vector>
 
 using namespace std;
 
 // Prints board (set maskVisible to !maskVisible for debugging)
 void printBoard(vector<vector<int>> board, vector<vector<bool>> maskVisible)
 {
-    for (int i = 0; i < board.size(); i++)
-    {
+    for (int i = 0; i < board.size(); i++) {
         cout << "-";
-        for (int k = 0; k < board[i].size(); k++)
-        {
+        for (int k = 0; k < board[i].size(); k++) {
             cout << "----";
         }
         cout << endl
              << "|";
-        for (int j = 0; j < board[i].size(); j++)
-        {
-            if (maskVisible[i][j])
-            {
+        for (int j = 0; j < board[i].size(); j++) {
+            if (maskVisible[i][j]) {
                 // dash from negative number would mess up board
-                if (board[i][j] < 0)
-                {
+                if (board[i][j] < 0) {
                     cout << " " << board[i][j] << "|";
-                }
-                else
-                {
+                } else {
                     cout << " " << board[i][j] << " |";
                 }
-            }
-            else
-            {
+            } else {
                 cout << "   |";
             }
         }
         cout << "\n";
     }
     cout << "-";
-    for (int k = 0; k < board[0].size(); k++)
-    {
+    for (int k = 0; k < board[0].size(); k++) {
         cout << "----";
     }
     cout << endl;
@@ -50,38 +40,30 @@ void printBoard(vector<vector<int>> board, vector<vector<bool>> maskVisible)
 bool isValid(vector<int> toCheck, int boardSizeX, int boardSizeY)
 {
     bool isValid;
-    if (toCheck[0] <= boardSizeX)
-    {
-        if (toCheck[0] > 0)
-        {
+    if (toCheck[0] <= boardSizeX) {
+        if (toCheck[0] > 0) {
             isValid = true;
-            if (toCheck[1] <= boardSizeY)
-            {
-                if (toCheck[1] > 0)
-                {
+            if (toCheck[1] <= boardSizeY) {
+                if (toCheck[1] > 0) {
                     isValid = true;
                 }
-            }
-            else
-            {
+            } else {
                 isValid = false;
             }
         }
-    }
-    else
-    {
+    } else {
         isValid = false;
     }
     return isValid;
 }
 
 // Takes user input
-vector<int> userInput(int boardSizeX, int boardSizeY)
+vector<int>
+userInput(int boardSizeX, int boardSizeY)
 {
-    vector<int> userInput = {0, 0};
+    vector<int> userInput = { 0, 0 };
     int input;
-    while (!isValid(userInput, boardSizeX, boardSizeY))
-    {
+    while (!isValid(userInput, boardSizeX, boardSizeY)) {
         cout << "Please enter a coordinate \nEnter X:";
         cin >> input;
         userInput.at(0) = input;
@@ -93,7 +75,8 @@ vector<int> userInput(int boardSizeX, int boardSizeY)
 }
 
 // Generates random coordinate using <random>
-vector<int> randomCoordinate(int boardSizeX, int boardSizeY)
+vector<int>
+randomCoordinate(int boardSizeX, int boardSizeY)
 {
     vector<int> random;
     random_device rand;
@@ -105,26 +88,36 @@ vector<int> randomCoordinate(int boardSizeX, int boardSizeY)
     return random;
 }
 
-// Takes an empty game board and fills in mines, as well as distance to the nearest mine
-// Returns the filled out game board
+// Takes an empty game board and fills in mines, as well as writing number of
+// adjacent mines Returns the filled out game board
 vector<vector<int>> generateMines(vector<vector<int>> board, int boardSizeX, int boardSizeY, int numMines)
 {
     cout << "Make first move \n";
 
     vector<int> firstMove = userInput(boardSizeX, boardSizeY);
-    for (int i = 0; i < numMines; i++)
-    {
+    for (int i = 0; i < numMines; i++) {
         vector<int> coordinateMine = randomCoordinate(boardSizeX, boardSizeY);
         // cout << coordinateMine[0] << " " << coordinateMine[1] << endl;
         int i1 = --coordinateMine[0], i2 = --coordinateMine[1];
-        if (board[i1][i2] < 0)
-        {
+        if (board[i1][i2] < 0) {
             i--;
-        }
-        else
-        {
+        } else {
             board[coordinateMine[0]][coordinateMine[1]] = -1;
             // cout << "mine placed successfully\n";
+        }
+    }
+
+    // TODO: count adjacent mines
+    for (int i = 0; i < boardSizeX; i++) {
+        for (int j = 0; j < boardSizeY; j++) {
+            // Take all mines and add 1 to adjacent coordinates
+            if (board[i][j] < 0) {
+                if (board[i - 1][j - 1] >= 0) {
+                    vector<int> coordinatesForIsValid = { i - 1, j - 1 };
+                    isValid(coordinatesForIsValid, boardSizeX, boardSizeY);
+                    board[i - 1][j - 1]++;
+                }
+            }
         }
     }
 
@@ -133,7 +126,6 @@ vector<vector<int>> generateMines(vector<vector<int>> board, int boardSizeX, int
 
 int main()
 {
-
     /*
     // main gameloop
     bool gameloop = true;
@@ -149,12 +141,10 @@ int main()
     int boardSizeX, boardSizeY, numMines = -1;
 
     // Sets boardSizeX, boardSizeY and numMines according to player input
-    while (numMines == -1)
-    {
+    while (numMines == -1) {
         cin >> userDifficulty;
         userDifficulty = tolower(userDifficulty);
-        switch (userDifficulty)
-        {
+        switch (userDifficulty) {
         case 'n':
             boardSizeX = boardSizeY = 8;
             numMines = 10;
@@ -181,12 +171,10 @@ int main()
     // Zero the board vector
     board.resize(boardSizeX);
     maskVisible.resize(boardSizeX);
-    for (int i = 0; i < boardSizeX; i++)
-    {
+    for (int i = 0; i < boardSizeX; i++) {
         board[i].resize(boardSizeY);
         maskVisible[i].resize(boardSizeY);
-        for (int j = 0; j < boardSizeY; j++)
-        {
+        for (int j = 0; j < boardSizeY; j++) {
             board[i][j] = 0;
             maskVisible[i][j] = false;
         }
