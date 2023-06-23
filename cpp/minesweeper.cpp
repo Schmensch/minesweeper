@@ -5,7 +5,7 @@
 
 using namespace std;
 
-// Prints board (set maskVisible to !maskVisible for debuging)
+// Prints board (set maskVisible to !maskVisible for debugging)
 void printBoard(vector<vector<int>> board, vector<vector<bool>> maskVisible)
 {
     for (int i = 0; i < board.size(); i++)
@@ -21,6 +21,7 @@ void printBoard(vector<vector<int>> board, vector<vector<bool>> maskVisible)
         {
             if (maskVisible[i][j])
             {
+                // dash from negative number would mess up board
                 if (board[i][j] < 0)
                 {
                     cout << " " << board[i][j] << "|";
@@ -45,7 +46,7 @@ void printBoard(vector<vector<int>> board, vector<vector<bool>> maskVisible)
     cout << endl;
 }
 
-// Checks if Koordiante is on board
+// Checks if coordinate is on board
 bool isValid(vector<int> toCheck, int boardSizeX, int boardSizeY)
 {
     bool isValid;
@@ -81,7 +82,7 @@ vector<int> userInput(int boardSizeX, int boardSizeY)
     int input;
     while (!isValid(userInput, boardSizeX, boardSizeY))
     {
-        cout << "Pleas enter a koordinate \nEnter X:";
+        cout << "Pleas enter a coordinate \nEnter X:";
         cin >> input;
         userInput.at(0) = input;
         cout << "Enter Y:";
@@ -121,7 +122,7 @@ int main()
     char userDifficulty;
     int boardSizeX, boardSizeY, numMines = -1;
 
-    // Sets boardSizeX, boardSizeY and numMines acording to player input
+    // Sets boardSizeX, boardSizeY and numMines according to player input
     while (numMines == -1)
     {
         cin >> userDifficulty;
@@ -169,31 +170,31 @@ int main()
     int moves = 1;
     printBoard(board, maskVisible);
     cout << "make first move \n";
-    vector<int> firstmMove = userInput(boardSizeX, boardSizeY);
+    vector<int> firstMove = userInput(boardSizeX, boardSizeY);
 
-    // Generate mines (replace 'randomKoordinate' with 'userInput' to generate mines yourself(only recomendet on easy))
+    // Generate mines (replace 'randomKoordinate' with 'userInput' to generate mines yourself(only recommended on easy))
     for (int i = 0; i < numMines; i++)
     {
-        vector<int> koordinateMine = randomKoordinate(boardSizeX, boardSizeY);
-        // cout << koordinateMine[0] << " " << koordinateMine[1] << endl;
-        int i1 = --koordinateMine[0], i2 = --koordinateMine[1];
+        vector<int> coordinateMine = randomKoordinate(boardSizeX, boardSizeY);
+        // cout << coordinateMine[0] << " " << coordinateMine[1] << endl;
+        int i1 = --coordinateMine[0], i2 = --coordinateMine[1];
         if (board[i1][i2] < 0)
         {
             i--;
         }
-        else if (firstmMove == koordinateMine)
+        else if (firstMove == coordinateMine)
         {
             i--;
         }
         else
         {
-            board[koordinateMine[0]][koordinateMine[1]] = -1;
-            // cout << "mine placed succesfully\n";
+            board[coordinateMine[0]][coordinateMine[1]] = -1;
+            // cout << "mine placed successfully\n";
         }
     }
 
     /*
-        // Quits/Restarts Gameloop
+        // Quits/Restarts gameloop
         while (true)
         {
             cout << "Play Again? \nY/N" << endl;
