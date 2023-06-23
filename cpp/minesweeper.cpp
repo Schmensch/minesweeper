@@ -150,6 +150,20 @@ int main()
     cout << "make first move \n";
     vector<int> firstmMove = userInput(boardSizeX, boardSizeY);
 
+    //Generate mines (replace 'randomKoordinate' with 'userInput' to generate mines yourself(only recomendet on easy))
+    for (int i = 0; i < numMines; i++) {
+        vector<int> koordinateMine = randomKoordinate(boardSizeX, boardSizeY);
+        cout << koordinateMine[0] << " " << koordinateMine[1] << endl;
+        int i1 = --koordinateMine[0], i2 = --koordinateMine[1];
+        if (board[i1][i2] < 0) {
+            i--;
+        } else if (firstmMove == koordinateMine) {
+            i--;
+        } else {
+            board[koordinateMine[0]][koordinateMine[1]] = -1;
+            cout << "mine placed succesfully\n";
+        }
+    }
     /*
         // Quits/Restarts Gameloop
         while (true)
