@@ -5,7 +5,7 @@
 
 using namespace std;
 
-//Prints board
+//Prints board (set maskVisible to !maskVisible for debuging)
 void printBoard(vector<vector<int>> board, vector<vector<bool>> maskVisible)
 {
     for (int i = 0; i < board.size(); i++)
@@ -18,9 +18,13 @@ void printBoard(vector<vector<int>> board, vector<vector<bool>> maskVisible)
         for (int j = 0; j < board[i].size(); j++)
         {
             if (!maskVisible[i][j]) {
+                if (board[i][j] < 0){
+                    cout << " " << board[i][j] << "|";
+                } else {
                 cout << " " << board[i][j] << " |";
+                }
             } else {
-                cout << "  |";
+                cout << "   |";
             }
         }
         cout << "\n";
