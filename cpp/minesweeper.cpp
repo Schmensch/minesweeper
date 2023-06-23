@@ -75,14 +75,6 @@ bool isValid(vector<int> toCheck, int boardSizeX, int boardSizeY)
     return isValid;
 }
 
-// Takes an empty game board and fills in mines and distance to the nearest mine
-// Returns the filled out game board
-vector<vector<int>> generateMines(vector<vector<int>> board)
-{
-    // TBD: Implement this
-    return;
-}
-
 // Takes user input
 vector<int> userInput(int boardSizeX, int boardSizeY)
 {
@@ -111,6 +103,32 @@ vector<int> randomCoordinate(int boardSizeX, int boardSizeY)
     uniform_int_distribution<> cis(1, boardSizeY);
     random.push_back(cis(gen));
     return random;
+}
+
+// Takes an empty game board and fills in mines, as well as distance to the nearest mine
+// Returns the filled out game board
+vector<vector<int>> generateMines(vector<vector<int>> board, int boardSizeX, int boardSizeY, int numMines)
+{
+    cout << "Make first move \n";
+
+    vector<int> firstMove = userInput(boardSizeX, boardSizeY);
+    for (int i = 0; i < numMines; i++)
+    {
+        vector<int> coordinateMine = randomCoordinate(boardSizeX, boardSizeY);
+        // cout << coordinateMine[0] << " " << coordinateMine[1] << endl;
+        int i1 = --coordinateMine[0], i2 = --coordinateMine[1];
+        if (board[i1][i2] < 0)
+        {
+            i--;
+        }
+        else
+        {
+            board[coordinateMine[0]][coordinateMine[1]] = -1;
+            // cout << "mine placed successfully\n";
+        }
+    }
+
+    return board;
 }
 
 int main()
@@ -177,27 +195,10 @@ int main()
     // First move
     int moves = 1;
     printBoard(board, maskVisible);
-    cout << "Make first move \n";
-    vector<int> firstMove = userInput(boardSizeX, boardSizeY);
-
-    generateMines();
+    board = generateMines(board, boardSizeX, boardSizeY, numMines);
+    printBoard(board, maskVisible);
 
     // Generate mines (replace 'randomCoordinate' with 'userInput' to generate mines yourself(only recommended on easy))
-    for (int i = 0; i < numMines; i++)
-    {
-        vector<int> coordinateMine = randomCoordinate(boardSizeX, boardSizeY);
-        // cout << coordinateMine[0] << " " << coordinateMine[1] << endl;
-        int i1 = --coordinateMine[0], i2 = --coordinateMine[1];
-        if (board[i1][i2] < 0)
-        {
-            i--;
-        }
-        else
-        {
-            board[coordinateMine[0]][coordinateMine[1]] = -1;
-            // cout << "mine placed successfully\n";
-        }
-    }
 
     /*
         // Quits/Restarts gameloop
