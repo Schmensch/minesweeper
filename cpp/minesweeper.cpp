@@ -92,7 +92,7 @@ vector<int> userInput(int boardSizeX, int boardSizeY)
     return userInput;
 }
 
-// Generates random Koordinate using <random>
+// Generates random coordinate using <random>
 vector<int> randomKoordinate(int boardSizeX, int boardSizeY)
 {
     vector<int> random;
