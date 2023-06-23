@@ -17,7 +17,7 @@ void printBoard(vector<vector<int>> board, vector<vector<bool>> maskVisible)
         cout << endl << "|";
         for (int j = 0; j < board[i].size(); j++)
         {
-            if (!maskVisible[i][j]) {
+            if (maskVisible[i][j]) {
                 if (board[i][j] < 0){
                     cout << " " << board[i][j] << "|";
                 } else {
@@ -39,20 +39,20 @@ void printBoard(vector<vector<int>> board, vector<vector<bool>> maskVisible)
 //Checks if Koordiante is on board
 bool isValid(vector<int> toCheck, int boardSizeX, int boardSizeY) {
     bool isValid;
-        if (toCheck[0] <= boardSizeX) {
-            if (toCheck[0] >0){
-                isValid = true;
-                if (toCheck[1] <= boardSizeY) {
-                    if (toCheck[1] >0){
-                        isValid = true;
-                    }
-                } else {
-            isValid = false;
+    if (toCheck[0] <= boardSizeX) {
+        if (toCheck[0] >0){
+            isValid = true;
+            if (toCheck[1] <= boardSizeY) {
+                if (toCheck[1] >0){
+                    isValid = true;
+                }
+            } else {
+        isValid = false;
+    }
         }
-            }
-        } else {
-            isValid = false;
-        }
+    } else {
+        isValid = false;
+    }
     return isValid;
 }
 
@@ -61,11 +61,11 @@ vector<int> userInput(int boardSizeX, int boardSizeY) {
     vector<int> userInput = {0,0};
     int input;
     while (!isValid(userInput, boardSizeX, boardSizeY)){
-    cout << "Pleas enter a koordinate \nEnter X:";
-    cin >> input;
+        cout << "Pleas enter a koordinate \nEnter X:";
+        cin >> input;
         userInput.at(0) = input;
-    cout << "Enter Y:";
-    cin >> input;
+        cout << "Enter Y:";
+        cin >> input;
         userInput.at(1) = input;
     }
     return userInput;
@@ -153,7 +153,7 @@ int main()
     //Generate mines (replace 'randomKoordinate' with 'userInput' to generate mines yourself(only recomendet on easy))
     for (int i = 0; i < numMines; i++) {
         vector<int> koordinateMine = randomKoordinate(boardSizeX, boardSizeY);
-        cout << koordinateMine[0] << " " << koordinateMine[1] << endl;
+        //cout << koordinateMine[0] << " " << koordinateMine[1] << endl;
         int i1 = --koordinateMine[0], i2 = --koordinateMine[1];
         if (board[i1][i2] < 0) {
             i--;
@@ -161,9 +161,10 @@ int main()
             i--;
         } else {
             board[koordinateMine[0]][koordinateMine[1]] = -1;
-            cout << "mine placed succesfully\n";
+            //cout << "mine placed succesfully\n";
         }
     }
+
     /*
         // Quits/Restarts Gameloop
         while (true)
