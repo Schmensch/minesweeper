@@ -57,15 +57,17 @@ bool isValid(vector<int> toCheck, int boardSizeX, int boardSizeY) {
 }
 
 //Takes user input
-vector<int> userInput() {
-    vector<int> userInput;
+vector<int> userInput(int boardSizeX, int boardSizeY) {
+    vector<int> userInput = {0,0};
     int input;
+    while (!isValid(userInput, boardSizeX, boardSizeY)){
     cout << "Pleas enter a koordinate \nEnter X:";
     cin >> input;
-    userInput.push_back(input);
+        userInput.at(0) = input;
     cout << "Enter Y:";
     cin >> input;
-    userInput.push_back(input);
+        userInput.at(1) = input;
+    }
     return userInput;
 }
 
