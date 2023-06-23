@@ -196,9 +196,6 @@ int main()
     int moves = 1;
     printBoard(board, maskVisible);
     board = generateMines(board, boardSizeX, boardSizeY, numMines);
-    printBoard(board, maskVisible);
-
-    // Generate mines (replace 'randomCoordinate' with 'userInput' to generate mines yourself(only recommended on easy))
 
     /*
         // Quits/Restarts gameloop
