@@ -144,9 +144,11 @@ int main()
         }
     }
 
-    //debugs stuff
-        vector<int> test = randomKoordinate (boardSizeX, boardSizeY);
-        cout << test[0] << " " << test[1] << endl;
+    //First move
+    int moves = 1;
+    printBoard(board, maskVisible);
+    cout << "make first move \n";
+    vector<int> firstmMove = userInput(boardSizeX, boardSizeY);
 
     /*
         // Quits/Restarts Gameloop
