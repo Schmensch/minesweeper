@@ -93,7 +93,7 @@ vector<int> userInput(int boardSizeX, int boardSizeY)
 }
 
 // Generates random coordinate using <random>
-vector<int> randomKoordinate(int boardSizeX, int boardSizeY)
+vector<int> randomCoordinate(int boardSizeX, int boardSizeY)
 {
     vector<int> random;
     random_device rand;
@@ -172,10 +172,10 @@ int main()
     cout << "Make first move \n";
     vector<int> firstMove = userInput(boardSizeX, boardSizeY);
 
-    // Generate mines (replace 'randomKoordinate' with 'userInput' to generate mines yourself(only recommended on easy))
+    // Generate mines (replace 'randomCoordinate' with 'userInput' to generate mines yourself(only recommended on easy))
     for (int i = 0; i < numMines; i++)
     {
-        vector<int> coordinateMine = randomKoordinate(boardSizeX, boardSizeY);
+        vector<int> coordinateMine = randomCoordinate(boardSizeX, boardSizeY);
         // cout << coordinateMine[0] << " " << coordinateMine[1] << endl;
         int i1 = --coordinateMine[0], i2 = --coordinateMine[1];
         if (board[i1][i2] < 0)
