@@ -147,6 +147,10 @@ vector<vector<int>> countAdjacentMines(vector<vector<int>> board)
     return board;
 }
 
+vector<vector<bool>> recursiveOpening(vector<vector<int>> board, vector<vector<bool>> maskVisible, vector<vector<bool>> checkedByFunction) {
+    
+}
+
 int main()
 {
     /*
@@ -209,7 +213,19 @@ int main()
     board = countAdjacentMines(board);
     printBoard(board, maskVisible);
 
-    
+    bool move = true;
+    while (move) {
+        vector<int> userCoordinate = userInput(board);
+        if (board[userCoordinate[0]][userCoordinate[1]] >= 0) {
+            //recursive function
+            vector<vector<bool>> checkedByFunction = maskVisible;
+
+
+        } else {
+            cout << "Game Over!\n";
+            move = false;
+        }
+    }
 
     /*
         // Quits/Restarts gameloop
