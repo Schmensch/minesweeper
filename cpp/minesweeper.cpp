@@ -61,8 +61,7 @@ bool isValid(vector<int> toCheck, int boardSizeX, int boardSizeY)
 }
 
 // Takes user input
-vector<int>
-userInput(int boardSizeX, int boardSizeY)
+vector<int> userInput(int boardSizeX, int boardSizeY)
 {
     vector<int> userInput = { 0, 0 };
     int input;
@@ -78,8 +77,7 @@ userInput(int boardSizeX, int boardSizeY)
 }
 
 // Generates random coordinate using <random>
-vector<int>
-randomCoordinate(int boardSizeX, int boardSizeY)
+vector<int> randomCoordinate(int boardSizeX, int boardSizeY)
 {
     vector<int> random;
     random_device rand;
@@ -91,6 +89,7 @@ randomCoordinate(int boardSizeX, int boardSizeY)
     return random;
 }
 
+//Used for 'countAdjacentMines"
 vector<vector<int>> checkAndIncrease(vector<vector<int>> board, int i, int j)
 {
     // Check if input is on the board
@@ -126,6 +125,7 @@ vector<vector<int>> generateMines(vector<vector<int>> board, int numMines)
     return board;
 }
 
+//Goes to every mine and increases the fields around it
 vector<vector<int>> countAdjacentMines(vector<vector<int>> board)
 {
     for (int i = 0; i < board.size(); i++) {
@@ -208,6 +208,8 @@ int main()
     board = generateMines(board, numMines);
     board = countAdjacentMines(board);
     printBoard(board, maskVisible);
+
+    
 
     /*
         // Quits/Restarts gameloop
