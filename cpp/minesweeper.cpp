@@ -40,13 +40,13 @@ void printBoard(vector<vector<int>> board, vector<vector<bool>> maskVisible)
 }
 
 // Checks if coordinate is on board
-bool isValid(vector<int> toCheck, int boardSizeX, int boardSizeY)
+bool isValid(vector<int> toCheck, vector<vector<int>> board)
 {
     bool isValid;
-    if (toCheck[0] <= boardSizeX) {
+    if (toCheck[0] <= board.size()) {
         if (toCheck[0] > 0) {
             isValid = true;
-            if (toCheck[1] <= boardSizeY) {
+            if (toCheck[1] <= board[1].size()) {
                 if (toCheck[1] > 0) {
                     isValid = true;
                 }
@@ -61,11 +61,11 @@ bool isValid(vector<int> toCheck, int boardSizeX, int boardSizeY)
 }
 
 // Takes user input
-vector<int> userInput(int boardSizeX, int boardSizeY)
+vector<int> userInput(vector<vector<int>> board)
 {
     vector<int> userInput = { 0, 0 };
     int input;
-    while (!isValid(userInput, boardSizeX, boardSizeY)) {
+    while (!isValid(userInput, board)) {
         cout << "Please enter a coordinate \nEnter X:";
         cin >> input;
         userInput.at(0) = input;
@@ -77,14 +77,14 @@ vector<int> userInput(int boardSizeX, int boardSizeY)
 }
 
 // Generates random coordinate using <random>
-vector<int> randomCoordinate(int boardSizeX, int boardSizeY)
+vector<int> randomCoordinate(vector<vector<int>> board)
 {
     vector<int> random;
     random_device rand;
     mt19937 gen(rand());
-    uniform_int_distribution<> dis(1, boardSizeX);
+    uniform_int_distribution<> dis(1, board.size());
     random.push_back(dis(gen));
-    uniform_int_distribution<> cis(1, boardSizeY);
+    uniform_int_distribution<> cis(1, board[1].size());
     random.push_back(cis(gen));
     return random;
 }
@@ -109,9 +109,9 @@ vector<vector<int>> generateMines(vector<vector<int>> board, int numMines)
 {
     cout << "Make first move \n";
 
-    vector<int> firstMove = userInput(board.size(), board[0].size());
+    vector<int> firstMove = userInput(board);
     for (int i = 0; i < numMines; i++) {
-        vector<int> coordinateMine = randomCoordinate(board.size(), board[0].size());
+        vector<int> coordinateMine = randomCoordinate(board);
         // cout << coordinateMine[0] << " " << coordinateMine[1] << endl;
         int i1 = --coordinateMine[0], i2 = --coordinateMine[1];
         if (board[i1][i2] < 0) {
