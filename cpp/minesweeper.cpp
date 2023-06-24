@@ -205,9 +205,7 @@ int main()
 
     // First move
     int moves = 1;
-    printBoard(board, maskVisible);
     board = generateMines(board, numMines);
-    printBoard(board, maskVisible);
     board = countAdjacentMines(board);
     printBoard(board, maskVisible);
 
