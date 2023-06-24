@@ -16,7 +16,10 @@ void printBoard(vector<vector<int>> board, vector<vector<bool>> maskVisible)
         cout << endl
              << "|";
         for (int j = 0; j < board[i].size(); j++) {
-            if (maskVisible[i][j]) {
+
+            // DEBUG: Always print the full board
+            // if (maskVisible[i][j]) {
+            if (true) {
                 // dash from negative number would mess up board
                 if (board[i][j] < 0) {
                     cout << " " << board[i][j] << "|";
@@ -88,15 +91,30 @@ randomCoordinate(int boardSizeX, int boardSizeY)
     return random;
 }
 
-// Takes an empty game board and fills in mines, as well as writing number of
-// adjacent mines Returns the filled out game board
-vector<vector<int>> generateMines(vector<vector<int>> board, int boardSizeX, int boardSizeY, int numMines)
+vector<vector<int>> checkAndIncrease(vector<vector<int>> board, int i, int j)
+{
+    // Check if input is on the board
+    if (i < 0 || j < 0 || i >= board.size() || j >= board[0].size()) {
+        return board;
+    }
+
+    if (board[i][j] >= 0) {
+        board[i][j]++;
+    }
+
+    cout << "i: " << i << "\nj: " << j << endl;
+
+    return board;
+}
+
+// Takes an empty game board and fills in mines
+vector<vector<int>> generateMines(vector<vector<int>> board, int numMines)
 {
     cout << "Make first move \n";
 
-    vector<int> firstMove = userInput(boardSizeX, boardSizeY);
+    vector<int> firstMove = userInput(board.size(), board[0].size());
     for (int i = 0; i < numMines; i++) {
-        vector<int> coordinateMine = randomCoordinate(boardSizeX, boardSizeY);
+        vector<int> coordinateMine = randomCoordinate(board.size(), board[0].size());
         // cout << coordinateMine[0] << " " << coordinateMine[1] << endl;
         int i1 = --coordinateMine[0], i2 = --coordinateMine[1];
         if (board[i1][i2] < 0) {
@@ -107,16 +125,23 @@ vector<vector<int>> generateMines(vector<vector<int>> board, int boardSizeX, int
         }
     }
 
-    // TODO: count adjacent mines
-    for (int i = 0; i < boardSizeX; i++) {
-        for (int j = 0; j < boardSizeY; j++) {
+    return board;
+}
+
+vector<vector<int>> countAdjacentMines(vector<vector<int>> board)
+{
+    for (int i = 0; i < board.size(); i++) {
+        for (int j = 0; j < board[0].size(); j++) {
             // Take all mines and add 1 to adjacent coordinates
             if (board[i][j] < 0) {
-                if (board[i - 1][j - 1] >= 0) {
-                    vector<int> coordinatesForIsValid = { i - 1, j - 1 };
-                    isValid(coordinatesForIsValid, boardSizeX, boardSizeY);
-                    board[i - 1][j - 1]++;
-                }
+                board = checkAndIncrease(board, i - 1, j + 1);
+                board = checkAndIncrease(board, i, j + 1);
+                board = checkAndIncrease(board, i + 1, j + 1);
+                board = checkAndIncrease(board, i - 1, j);
+                board = checkAndIncrease(board, i + 1, j);
+                board = checkAndIncrease(board, i - 1, j - 1);
+                board = checkAndIncrease(board, i, j - 1);
+                board = checkAndIncrease(board, i + 1, j - 1);
             }
         }
     }
@@ -183,7 +208,10 @@ int main()
     // First move
     int moves = 1;
     printBoard(board, maskVisible);
-    board = generateMines(board, boardSizeX, boardSizeY, numMines);
+    board = generateMines(board, numMines);
+    printBoard(board, maskVisible);
+    board = countAdjacentMines(board);
+    printBoard(board, maskVisible);
 
     /*
         // Quits/Restarts gameloop
