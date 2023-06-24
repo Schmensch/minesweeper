@@ -102,8 +102,6 @@ vector<vector<int>> checkAndIncrease(vector<vector<int>> board, int i, int j)
         board[i][j]++;
     }
 
-    cout << "i: " << i << "\nj: " << j << endl;
-
     return board;
 }
 
