@@ -17,27 +17,46 @@ struct recursiveRevealMetaStruct {
     minesweeperBoard board;
 };
 
-recursiveRevealMetaStruct revealSquares(recursiveRevealMetaStruct rv, vector<int> coords)
+recursiveRevealMetaStruct revealSquares(recursiveRevealMetaStruct rv, int x, int y);
+
+recursiveRevealMetaStruct checkAndReveal(recursiveRevealMetaStruct rv, int x, int y)
 {
-    cout << "Success" << endl;
-
-    rv.board.visible[coords[0]][coords[1]] = true;
-    rv.checkedSquares[coords[0]][coords[1]] = true;
-
-    for (int i = -2; i <= 2; i++) {
-        vector<int> newCoords = coords;
-        newCoords[0] = newCoords[0] + i;
-        for (int j = -2; j <= 2; j++) {
-            newCoords[1] = newCoords[1] + j;
-            if (rv.board.numAdjacentBombs[newCoords[0]][newCoords[1]] == 0 && !rv.board.bombs[newCoords[0]][newCoords[1]]) {
-                if (newCoords[0] > 0 || newCoords[0] < rv.board.bombs.size() || newCoords[1] > 0 || newCoords[1] < rv.board.bombs[0].size()) {
-                    if (!rv.checkedSquares[coords[0]][coords[1]]) {
-                        return revealSquares(rv, newCoords);
-                    }
-                }
-            }
-        }
+    if (x < 0 || x >= rv.board.bombs.size() || y < 0 || y >= rv.board.bombs[0].size()) {
+        return rv;
     }
+
+    if (rv.checkedSquares[x][y] == true) {
+        return rv;
+    }
+
+    if (rv.board.bombs[x][y] == true) {
+        return rv;
+    }
+
+    return revealSquares(rv, x, y);
+}
+
+recursiveRevealMetaStruct revealSquares(recursiveRevealMetaStruct rv, int x, int y)
+{
+
+    if (rv.board.numAdjacentBombs[x][y] > 0) {
+        rv.board.visible[x][y] = true;
+        return rv;
+    }
+
+    rv.board.visible[x][y] = true;
+    rv.checkedSquares[x][y] = true;
+
+    rv = checkAndReveal(rv, x - 1, y + 1);
+    rv = checkAndReveal(rv, x, y + 1);
+    rv = checkAndReveal(rv, x + 1, y + 1);
+    rv = checkAndReveal(rv, x - 1, y);
+    rv = checkAndReveal(rv, x + 1, y);
+    rv = checkAndReveal(rv, x - 1, y - 1);
+    rv = checkAndReveal(rv, x, y - 1);
+    rv = checkAndReveal(rv, x + 1, y - 1);
+
+    return rv;
 }
 
 void printBoard(minesweeperBoard board)
@@ -222,7 +241,7 @@ int main()
     boardWrapped.board = board;
     boardWrapped.checkedSquares = checkedSquares;
 
-    boardWrapped = revealSquares(boardWrapped, firstMove);
+    boardWrapped = revealSquares(boardWrapped, firstMove[0], firstMove[1]);
     board = boardWrapped.board;
     printBoard(board);
 
