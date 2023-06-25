@@ -5,133 +5,100 @@
 
 using namespace std;
 
-// Prints board (set maskVisible to !maskVisible for debugging)
-void printBoard(vector<vector<int>> board, vector<vector<bool>> maskVisible)
-{
-    for (int i = 0; i < board.size(); i++) {
-        cout << "-";
-        for (int k = 0; k < board[i].size(); k++) {
-            cout << "----";
-        }
-        cout << endl
-             << "|";
-        for (int j = 0; j < board[i].size(); j++) {
+struct minesweeperBoard {
+    vector<vector<bool>> bombs;
+    vector<vector<int>> numAdjacentBombs;
+    vector<vector<bool>> visible;
+    // vector<vector<bool>> flags;
+} board;
 
-            // DEBUG: Always print the full board
-            // if (maskVisible[i][j]) {
+void printBoard(minesweeperBoard board)
+{
+    for (int i = 0; i < board.bombs.size();) {
+        for (int j = 0; j < board.bombs[i].size(); j++) {
             if (true) {
-                // dash from negative number would mess up board
-                if (board[i][j] < 0) {
-                    cout << " " << board[i][j] << "|";
+                // if (board.visible[i][j]) {
+                if (board.numAdjacentBombs[i][j] == 0) {
+                    cout << "   ";
                 } else {
-                    cout << " " << board[i][j] << " |";
+                    cout << " " << board.numAdjacentBombs[i][j] << " ";
                 }
             } else {
-                cout << "   |";
+                cout << " X ";
             }
         }
         cout << "\n";
     }
-    cout << "-";
-    for (int k = 0; k < board[0].size(); k++) {
-        cout << "----";
-    }
-    cout << endl;
-}
-
-// Checks if coordinate is on board
-bool isValid(vector<int> toCheck, vector<vector<int>> board)
-{
-    bool isValid;
-    if (toCheck[0] <= board.size()) {
-        if (toCheck[0] > 0) {
-            isValid = true;
-            if (toCheck[1] <= board[1].size()) {
-                if (toCheck[1] > 0) {
-                    isValid = true;
-                }
-            } else {
-                isValid = false;
-            }
-        }
-    } else {
-        isValid = false;
-    }
-    return isValid;
 }
 
 // Takes user input
-vector<int> userInput(vector<vector<int>> board)
+vector<int> userInput(minesweeperBoard board)
 {
     vector<int> userInput = { 0, 0 };
     int input;
-    while (!isValid(userInput, board)) {
+    do {
         cout << "Please enter a coordinate \nEnter X:";
         cin >> input;
-        userInput.at(0) = input;
+        userInput[0] = input;
         cout << "Enter Y:";
         cin >> input;
-        userInput.at(1) = input;
-    }
+        userInput[1] = input;
+    } while (userInput[0] < 0 || userInput[1] < 0 || userInput[0] >= board.bombs.size() || userInput[1] >= board.bombs[0].size());
     return userInput;
 }
 
 // Generates random coordinate using <random>
-vector<int> randomCoordinate(vector<vector<int>> board)
+vector<int> randomCoordinate(minesweeperBoard board)
 {
     vector<int> random;
     random_device rand;
     mt19937 gen(rand());
-    uniform_int_distribution<> dis(1, board.size());
+    uniform_int_distribution<> dis(1, board.bombs.size());
     random.push_back(dis(gen));
-    uniform_int_distribution<> cis(1, board[1].size());
+    uniform_int_distribution<> cis(1, board.bombs[0].size());
     random.push_back(cis(gen));
     return random;
 }
 
-//Used for 'countAdjacentMines"
-vector<vector<int>> checkAndIncrease(vector<vector<int>> board, int i, int j)
+// Used for 'countAdjacentMines"
+minesweeperBoard checkAndIncrease(minesweeperBoard board, int i, int j)
 {
     // Check if input is on the board
-    if (i < 0 || j < 0 || i >= board.size() || j >= board[0].size()) {
+    if (i < 0 || j < 0 || i >= board.bombs.size() || j >= board.bombs[0].size()) {
         return board;
     }
 
-    if (board[i][j] >= 0) {
-        board[i][j]++;
-    }
+    board.numAdjacentBombs[i][j]++;
 
     return board;
 }
 
 // Takes an empty game board and fills in mines
-vector<vector<int>> generateMines(vector<vector<int>> board, int numMines)
+minesweeperBoard generateMines(minesweeperBoard board, int numMines)
 {
     cout << "Make first move \n";
 
     vector<int> firstMove = userInput(board);
     for (int i = 0; i < numMines; i++) {
         vector<int> coordinateMine = randomCoordinate(board);
-        // cout << coordinateMine[0] << " " << coordinateMine[1] << endl;
         int i1 = --coordinateMine[0], i2 = --coordinateMine[1];
-        if (board[i1][i2] < 0) {
+        if (board.bombs[i1][i2] < 0) {
             i--;
         } else {
-            board[coordinateMine[0]][coordinateMine[1]] = -1;
-            // cout << "mine placed successfully\n";
+            board.bombs[coordinateMine[0]][coordinateMine[1]] = -1;
         }
     }
 
     return board;
 }
 
-//Goes to every mine and increases the fields around it
-vector<vector<int>> countAdjacentMines(vector<vector<int>> board)
+// Goes to every mine and increases the fields around it
+minesweeperBoard countAdjacentMines(minesweeperBoard board)
 {
-    for (int i = 0; i < board.size(); i++) {
-        for (int j = 0; j < board[0].size(); j++) {
+    for (int i = 0; i < board.bombs.size(); i++) {
+        for (int j = 0; j < board.bombs[0].size(); j++) {
             // Take all mines and add 1 to adjacent coordinates
-            if (board[i][j] < 0) {
+            if (board.bombs[i][j]) {
                 board = checkAndIncrease(board, i - 1, j + 1);
                 board = checkAndIncrease(board, i, j + 1);
                 board = checkAndIncrease(board, i + 1, j + 1);
@@ -147,9 +114,11 @@ vector<vector<int>> countAdjacentMines(vector<vector<int>> board)
     return board;
 }
 
-vector<vector<bool>> recursiveOpening(vector<vector<int>> board, vector<vector<bool>> maskVisible, vector<vector<bool>> checkedByFunction) {
-    
+/*
+vector<vector<bool>> recursiveOpening(vector<vector<int>> board, vector<vector<bool>> maskVisible, vector<vector<bool>> checkedByFunction)
+{
 }
+*/
 
 int main()
 {
@@ -192,18 +161,23 @@ int main()
     }
 
     // Creates board
-    vector<vector<int>> board;
-    vector<vector<bool>> maskVisible;
+    minesweeperBoard board;
 
     // Zero the board vector
-    board.resize(boardSizeX);
-    maskVisible.resize(boardSizeX);
+    board.bombs.resize(boardSizeX);
+    board.numAdjacentBombs.resize(boardSizeX);
+    board.visible.resize(boardSizeX);
+
     for (int i = 0; i < boardSizeX; i++) {
-        board[i].resize(boardSizeY);
-        maskVisible[i].resize(boardSizeY);
+
+        board.bombs[i].resize(boardSizeY);
+        board.numAdjacentBombs[i].resize(boardSizeY);
+        board.visible[i].resize(boardSizeY);
+
         for (int j = 0; j < boardSizeY; j++) {
-            board[i][j] = 0;
-            maskVisible[i][j] = false;
+            board.bombs[i][j] = false;
+            board.numAdjacentBombs[i][j] = 0;
+            board.visible[i][j] = false;
         }
     }
 
@@ -211,21 +185,22 @@ int main()
     int moves = 1;
     board = generateMines(board, numMines);
     board = countAdjacentMines(board);
-    printBoard(board, maskVisible);
+    printBoard(board);
 
+    /*
     bool move = true;
+
     while (move) {
         vector<int> userCoordinate = userInput(board);
         if (board[userCoordinate[0]][userCoordinate[1]] >= 0) {
-            //recursive function
+            // recursive function
             vector<vector<bool>> checkedByFunction = maskVisible;
-
-
         } else {
             cout << "Game Over!\n";
             move = false;
         }
     }
+    */
 
     /*
         // Quits/Restarts gameloop
