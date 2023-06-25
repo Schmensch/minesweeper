@@ -10,12 +10,12 @@ struct minesweeperBoard {
     vector<vector<int>> numAdjacentBombs;
     vector<vector<bool>> visible;
     // vector<vector<bool>> flags;
-} board;
+};
 
 struct recursiveRevealMetaStruct {
     vector<vector<bool>> checkedSquares;
     minesweeperBoard board;
-} revealMeta;
+};
 
 recursiveRevealMetaStruct revealSquares(recursiveRevealMetaStruct rv, vector<int> coords)
 {
