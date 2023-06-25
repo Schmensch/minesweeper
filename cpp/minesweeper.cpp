@@ -9,7 +9,6 @@ struct minesweeperBoard {
     vector<vector<bool>> bombs;
     vector<vector<int>> numAdjacentBombs;
     vector<vector<bool>> visible;
-    // vector<vector<bool>> flags;
 };
 
 struct recursiveRevealMetaStruct {
@@ -47,6 +46,7 @@ recursiveRevealMetaStruct revealSquares(recursiveRevealMetaStruct rv, int x, int
     rv.board.visible[x][y] = true;
     rv.checkedSquares[x][y] = true;
 
+    // Go around and check all adjacent cells
     rv = checkAndReveal(rv, x - 1, y + 1);
     rv = checkAndReveal(rv, x, y + 1);
     rv = checkAndReveal(rv, x + 1, y + 1);
@@ -65,7 +65,7 @@ void printBoard(minesweeperBoard board)
         for (int j = 0; j < board.bombs[0].size(); j++) {
             // DEBUG: always print all squares
             if (board.visible[i][j]) {
-                //if (true) {
+                // if (true) {
                 if (board.numAdjacentBombs[i][j] == 0) {
                     cout << " - ";
                 } else {
@@ -94,6 +94,7 @@ vector<int> userInput(minesweeperBoard board)
         input--;
         userInput[1] = input;
     } while (userInput[0] < 0 || userInput[1] < 0 || userInput[0] >= board.bombs.size() || userInput[1] >= board.bombs[0].size());
+    //       ^ Check if coordinate is inside the board
     return userInput;
 }
 
@@ -148,6 +149,7 @@ minesweeperBoard countAdjacentMines(minesweeperBoard board)
         for (int j = 0; j < board.bombs[0].size(); j++) {
             // Take all mines and add 1 to adjacent coordinates
             if (board.bombs[i][j]) {
+                // Go around the cell and check all adjacent cells
                 board = checkAndIncrease(board, i - 1, j + 1);
                 board = checkAndIncrease(board, i, j + 1);
                 board = checkAndIncrease(board, i + 1, j + 1);
@@ -163,13 +165,14 @@ minesweeperBoard countAdjacentMines(minesweeperBoard board)
     return board;
 }
 
-//Checks for victory
-bool victoryCheck(minesweeperBoard board, int numMines) {
+// Checks for victory
+bool victoryCheck(minesweeperBoard board, int numMines)
+{
     int areaBoard = board.visible.size() * board.visible[0].size();
     int areaBoardWOMines = areaBoard - numMines;
     int counter = 0;
     for (int i = 0; i < board.visible.size(); i++) {
-        for (int j =0; j< board.visible[0].size(); j++) {
+        for (int j = 0; j < board.visible[0].size(); j++) {
             if (board.visible[i][j]) {
                 counter++;
             }
@@ -183,121 +186,113 @@ int main()
 
     // main gameloop
     bool gameloop = true;
-    while (gameloop)
-    {
+    while (gameloop) {
 
-    // Introduction
-    cout << "Welcome to MINESWEEPER \n\nPlease select a difficulty: \n\t Normal [N] \n\t Hard [H] \n\t Expert [E]\n";
+        // Introduction
+        cout << "Welcome to MINESWEEPER \n\nPlease select a difficulty: \n\t Normal [N] \n\t Hard [H] \n\t Expert [E]\n";
 
-    // Set up variables + Evil hack to check whether difficulty is set
-    char userDifficulty;
-    int boardSizeX, boardSizeY, numMines = -1;
+        // Set up variables + Evil hack to check whether difficulty is set
+        char userDifficulty;
+        int boardSizeX, boardSizeY, numMines = -1;
 
-    // Sets boardSizeX, boardSizeY and numMines according to player input
-    while (numMines == -1) {
-        cin >> userDifficulty;
-        userDifficulty = tolower(userDifficulty);
-        switch (userDifficulty) {
-        case 'n':
-            boardSizeX = boardSizeY = 8;
-            numMines = 10;
-            break;
-        case 'h':
-            boardSizeX = boardSizeY = 16;
-            numMines = 40;
-            break;
-        case 'e':
-            boardSizeX = 16;
-            boardSizeY = 30;
-            numMines = 99;
-            break;
-        default:
-            cout << "Enter a valid answer!\n";
-            break;
+        // Sets boardSizeX, boardSizeY and numMines according to player input
+        while (numMines == -1) {
+            cin >> userDifficulty;
+            userDifficulty = tolower(userDifficulty);
+            switch (userDifficulty) {
+            case 'n':
+                boardSizeX = boardSizeY = 8;
+                numMines = 10;
+                break;
+            case 'h':
+                boardSizeX = boardSizeY = 16;
+                numMines = 40;
+                break;
+            case 'e':
+                boardSizeX = 16;
+                boardSizeY = 30;
+                numMines = 99;
+                break;
+            default:
+                cout << "Enter a valid answer!\n";
+                break;
+            }
         }
-    }
 
-    // Creates board
-    minesweeperBoard board;
+        // Creates board
+        minesweeperBoard board;
 
-    // Zero the board vector
-    board.bombs.resize(boardSizeX);
-    board.numAdjacentBombs.resize(boardSizeX);
-    board.visible.resize(boardSizeX);
+        // Zero the board vector
+        board.bombs.resize(boardSizeX);
+        board.numAdjacentBombs.resize(boardSizeX);
+        board.visible.resize(boardSizeX);
 
-    for (int i = 0; i < boardSizeX; i++) {
+        for (int i = 0; i < boardSizeX; i++) {
 
-        board.bombs[i].resize(boardSizeY);
-        board.numAdjacentBombs[i].resize(boardSizeY);
-        board.visible[i].resize(boardSizeY);
+            board.bombs[i].resize(boardSizeY);
+            board.numAdjacentBombs[i].resize(boardSizeY);
+            board.visible[i].resize(boardSizeY);
 
-        for (int j = 0; j < boardSizeY; j++) {
-            board.bombs[i][j] = false;
-            board.numAdjacentBombs[i][j] = 0;
-            board.visible[i][j] = false;
+            for (int j = 0; j < boardSizeY; j++) {
+                board.bombs[i][j] = false;
+                board.numAdjacentBombs[i][j] = 0;
+                board.visible[i][j] = false;
+            }
         }
-    }
 
-    // First move
-    cout << "Make first move \n";
+        // First move
+        cout << "Make first move \n";
 
-    vector<int> firstMove = userInput(board);
+        vector<int> firstMove = userInput(board);
 
-    board = generateMines(board, numMines, firstMove);
-    board = countAdjacentMines(board);
+        board = generateMines(board, numMines, firstMove);
+        board = countAdjacentMines(board);
 
-    vector<vector<bool>> checkedSquares;
-    checkedSquares.resize(boardSizeX);
-    for (int i = 0; i < boardSizeX; i++) {
-        checkedSquares[i].resize(boardSizeY);
-        for (int j = 0; j < boardSizeY; j++) {
-            checkedSquares[i][j] = false;
+        vector<vector<bool>> checkedSquares;
+        checkedSquares.resize(boardSizeX);
+        for (int i = 0; i < boardSizeX; i++) {
+            checkedSquares[i].resize(boardSizeY);
+            for (int j = 0; j < boardSizeY; j++) {
+                checkedSquares[i][j] = false;
+            }
         }
-    }
 
-    recursiveRevealMetaStruct boardWrapped;
-    boardWrapped.board = board;
-    boardWrapped.checkedSquares = checkedSquares;
+        recursiveRevealMetaStruct boardWrapped;
+        boardWrapped.board = board;
+        boardWrapped.checkedSquares = checkedSquares;
 
-    boardWrapped = revealSquares(boardWrapped, firstMove[0], firstMove[1]);
-    board = boardWrapped.board;
-    printBoard(board);
+        boardWrapped = revealSquares(boardWrapped, firstMove[0], firstMove[1]);
+        board = boardWrapped.board;
+        printBoard(board);
 
-    
-    bool move = true;
+        bool move = true;
 
-    while (move) {
-        vector<int> userCoordinate = userInput(board);
-        if (!board.bombs[userCoordinate[0]][userCoordinate[1]]) {
-            boardWrapped = revealSquares(boardWrapped, userCoordinate[0], userCoordinate[1]);
-            board = boardWrapped.board;
-            printBoard(board);
-        } else {
-            cout << "Game Over!\n";
-            move = false;
+        while (move) {
+            vector<int> userCoordinate = userInput(board);
+            if (!board.bombs[userCoordinate[0]][userCoordinate[1]]) {
+                boardWrapped = revealSquares(boardWrapped, userCoordinate[0], userCoordinate[1]);
+                board = boardWrapped.board;
+                printBoard(board);
+            } else {
+                cout << "Game Over!\n";
+                move = false;
+            }
+            if (true) {
+                victoryCheck(board, numMines);
+            }
         }
-        if (true){
-            victoryCheck(board, numMines);
-        }
-    }
 
-        // Quits/Restarts gameloop
-        while (true)
-        {
+        // Quits / Restarts gameloop
+        while (true) {
             cout << "Play Again? \nY/N" << endl;
             char input;
             cin >> input;
             input = tolower(input);
-            if (input == 'y')
-            {
+            if (input == 'y') {
                 break;
-            }
-            else if (input == 'n')
-            {
+            } else if (input == 'n') {
                 return 0;
-            }
-            else
-            {
+            } else {
                 cout << "Enter valid answer!" << endl;
             }
         }
