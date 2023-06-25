@@ -12,6 +12,38 @@ struct minesweeperBoard {
     // vector<vector<bool>> flags;
 } board;
 
+struct recursiveRevealMetaStruct {
+    vector<vector<bool>> checkedSquares;
+    minesweeperBoard board;
+} revealMeta;
+
+recursiveRevealMetaStruct revealSquares(recursiveRevealMetaStruct rv, vector<int> coords)
+{
+    if (coords[0] < 0 || coords[0] > rv.board.bombs.size() || coords[1] < 0 || coords[1] > rv.board.bombs[0].size()) {
+        return rv;
+    }
+
+    if (rv.checkedSquares[coords[0]][coords[1]]) {
+        return rv;
+    }
+
+    rv.board.visible[coords[0]][coords[1]] = true;
+    rv.checkedSquares[coords[0]][coords[1]] = true;
+
+    for (int i = -1; i <= 1; i++) {
+        vector<int> newCoords = coords;
+        newCoords[0] = newCoords[0] + i;
+        for (int j = -1; j <= 1; j++) {
+            newCoords[1] = newCoords[1] + j;
+            if (rv.board.numAdjacentBombs[newCoords[0]][newCoords[1]] == 0 && !rv.board.bombs[newCoords[0]][newCoords[1]]) {
+                rv = revealSquares(rv, newCoords);
+            }
+        }
+    }
+
+    return rv;
+}
+
 void printBoard(minesweeperBoard board)
 {
     for (int i = 0; i < board.bombs.size(); i++) {
@@ -114,12 +146,6 @@ minesweeperBoard countAdjacentMines(minesweeperBoard board)
 
     return board;
 }
-
-/*
-vector<vector<bool>> recursiveOpening(vector<vector<int>> board, vector<vector<bool>> maskVisible, vector<vector<bool>> checkedByFunction)
-{
-}
-*/
 
 int main()
 {
