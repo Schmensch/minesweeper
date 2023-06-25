@@ -14,20 +14,21 @@ struct minesweeperBoard {
 
 void printBoard(minesweeperBoard board)
 {
-    for (int i = 0; i < board.bombs.size();) {
-        for (int j = 0; j < board.bombs[i].size(); j++) {
-            if (true) {
-                // if (board.visible[i][j]) {
+    for (int i = 0; i < board.bombs.size(); i++) {
+        for (int j = 0; j < board.bombs[0].size(); j++) {
+            // DEBUG: always print all squares
+            if (board.visible[i][j]) {
+                // if (true) {
                 if (board.numAdjacentBombs[i][j] == 0) {
-                    cout << "   ";
+                    cout << " - ";
                 } else {
                     cout << " " << board.numAdjacentBombs[i][j] << " ";
                 }
             } else {
-                cout << " X ";
+                cout << " # ";
             }
         }
-        cout << "\n";
+        cout << "\n\n";
     }
 }
 
@@ -185,6 +186,7 @@ int main()
     int moves = 1;
     board = generateMines(board, numMines);
     board = countAdjacentMines(board);
+    // cout << board.bombs[0][0] << "\n";
     printBoard(board);
 
     /*
