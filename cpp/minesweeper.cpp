@@ -19,29 +19,25 @@ struct recursiveRevealMetaStruct {
 
 recursiveRevealMetaStruct revealSquares(recursiveRevealMetaStruct rv, vector<int> coords)
 {
-    if (coords[0] < 0 || coords[0] > rv.board.bombs.size() || coords[1] < 0 || coords[1] > rv.board.bombs[0].size()) {
-        return rv;
-    }
-
-    if (rv.checkedSquares[coords[0]][coords[1]]) {
-        return rv;
-    }
+    cout << "Success" << endl;
 
     rv.board.visible[coords[0]][coords[1]] = true;
     rv.checkedSquares[coords[0]][coords[1]] = true;
 
-    for (int i = -1; i <= 1; i++) {
+    for (int i = -2; i <= 2; i++) {
         vector<int> newCoords = coords;
         newCoords[0] = newCoords[0] + i;
-        for (int j = -1; j <= 1; j++) {
+        for (int j = -2; j <= 2; j++) {
             newCoords[1] = newCoords[1] + j;
             if (rv.board.numAdjacentBombs[newCoords[0]][newCoords[1]] == 0 && !rv.board.bombs[newCoords[0]][newCoords[1]]) {
-                rv = revealSquares(rv, newCoords);
+                if (newCoords[0] > 0 || newCoords[0] < rv.board.bombs.size() || newCoords[1] > 0 || newCoords[1] < rv.board.bombs[0].size()) {
+                    if (!rv.checkedSquares[coords[0]][coords[1]]) {
+                        return revealSquares(rv, newCoords);
+                    }
+                }
             }
         }
     }
-
-    return rv;
 }
 
 void printBoard(minesweeperBoard board)
@@ -109,16 +105,13 @@ minesweeperBoard checkAndIncrease(minesweeperBoard board, int i, int j)
 // Takes an empty game board and fills in mines
 minesweeperBoard generateMines(minesweeperBoard board, int numMines)
 {
-    cout << "Make first move \n";
-
-    vector<int> firstMove = userInput(board);
     for (int i = 0; i < numMines; i++) {
         vector<int> coordinateMine = randomCoordinate(board);
         int i1 = --coordinateMine[0], i2 = --coordinateMine[1];
-        if (board.bombs[i1][i2] < 0) {
+        if (board.bombs[i1][i2]) {
             i--;
         } else {
-            board.bombs[coordinateMine[0]][coordinateMine[1]] = -1;
+            board.bombs[coordinateMine[0]][coordinateMine[1]] = true;
         }
     }
 
@@ -209,10 +202,28 @@ int main()
     }
 
     // First move
-    int moves = 1;
+    cout << "Make first move \n";
+
+    vector<int> firstMove = userInput(board);
+
     board = generateMines(board, numMines);
     board = countAdjacentMines(board);
-    // cout << board.bombs[0][0] << "\n";
+
+    vector<vector<bool>> checkedSquares;
+    checkedSquares.resize(boardSizeX);
+    for (int i = 0; i < boardSizeX; i++) {
+        checkedSquares[i].resize(boardSizeY);
+        for (int j = 0; j < boardSizeY; j++) {
+            checkedSquares[i][j] = false;
+        }
+    }
+
+    recursiveRevealMetaStruct boardWrapped;
+    boardWrapped.board = board;
+    boardWrapped.checkedSquares = checkedSquares;
+
+    boardWrapped = revealSquares(boardWrapped, firstMove);
+    board = boardWrapped.board;
     printBoard(board);
 
     /*
